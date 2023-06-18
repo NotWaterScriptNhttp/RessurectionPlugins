@@ -16,7 +16,7 @@ namespace RGCPlugin
         [PluginConfig]
         public Config Config; // Some user settings for the plugin
 
-        [PluginConfig("default.yml")]
+        [PluginConfig("default_lang.yml")]
         public Translation Translation; // Translations
 
         public static Plugin Instance { get; private set; } = null; // A singleton of this class
@@ -25,7 +25,7 @@ namespace RGCPlugin
 
         private void LoadTranslation(string myPath)
         {
-            string defaultLang = Path.Combine(myPath, "default.yml");
+            string defaultLang = Path.Combine(myPath, "default_lang.yml");
             if (!File.Exists(defaultLang))
                 File.WriteAllText(defaultLang, YamlParser.Serializer.Serialize(Translation)); // Writes the default 
 
@@ -71,7 +71,7 @@ namespace RGCPlugin
         {
             Log.Info("Loading...");
 
-            EventManager.RegisterEvents<PluginEventManager>(this); // Forwards the events to PluginEventManager
+            EventManager.RegisterAllEvents(this); // Registers all of the plugins's event handlers
 
             PluginHandler plugin = PluginHandler.Get(this); // Gets the data about this plugin
             string myPath = plugin.PluginDirectoryPath; // Path to the plugin directory
@@ -92,7 +92,7 @@ namespace RGCPlugin
         // Called when the plugin is unloaded
         private void OnPluginUnload() 
         {
-            EventManager.UnregisterEvents<PluginEventManager>(this); // Unregisters the PluginEventManager
+            EventManager.UnregisterAllEvents(this); // Unregisters all events from this plugin
         }
 
         #endregion
