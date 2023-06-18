@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using Serialization;
 
@@ -8,6 +7,7 @@ using PluginAPI.Events;
 using PluginAPI.Core.Attributes;
 
 using RGCPlugin.Configs;
+
 
 namespace RGCPlugin
 {
@@ -19,7 +19,7 @@ namespace RGCPlugin
         [PluginConfig("default.yml")]
         public Translation Translation; // Translations
 
-        public Plugin Instance { get; private set; } = null; // A singleton of this class
+        public static Plugin Instance { get; private set; } = null; // A singleton of this class
 
         #region Helper functions
 
@@ -27,7 +27,7 @@ namespace RGCPlugin
         {
             string defaultLang = Path.Combine(myPath, "default.yml");
             if (!File.Exists(defaultLang))
-                File.WriteAllText(defaultLang, YamlParser.Serializer.Serialize(Translation)); // Writes the default
+                File.WriteAllText(defaultLang, YamlParser.Serializer.Serialize(Translation)); // Writes the default 
 
             string translationDir = Path.Combine(myPath, "locale"); // Path to the translations
             if (!Directory.Exists(translationDir))
@@ -71,8 +71,6 @@ namespace RGCPlugin
         {
             Log.Info("Loading...");
 
-            Instance = this; // Sets the instance
-
             EventManager.RegisterEvents<PluginEventManager>(this); // Forwards the events to PluginEventManager
 
             PluginHandler plugin = PluginHandler.Get(this); // Gets the data about this plugin
@@ -98,5 +96,7 @@ namespace RGCPlugin
         }
 
         #endregion
+
+        public Plugin() => Instance = this; // Set the instance
     }
 }
