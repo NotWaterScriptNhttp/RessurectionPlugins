@@ -35,6 +35,14 @@
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\References\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mirror">
+      <HintPath>..\References\Mirror.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="NorthwoodLib">
       <HintPath>..\References\NorthwoodLib.dll</HintPath>
       <Private>False</Private>
@@ -71,7 +79,8 @@
     <Compile Include="Utils\TextColor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Folder Include="Commands\Console\" />
+    <Folder Include="Commands\RA\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

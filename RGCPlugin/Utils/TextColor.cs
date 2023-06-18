@@ -100,7 +100,7 @@ namespace RGCPlugin.Utils
         public string ColorToRGB() => $"{R}, {G}, {B}";
 
         // Returns the unity formated string
-        public string GetColoredText(string text) => $"<color=#ffffff>{ColorToHex()}</color>";
+        public string GetColoredText(string text) => $"<color={ColorToHex()}>{text}</color>";
 
         // Handles the de/serialization of this object
         public void Read(IParser _, Type __, ObjectDeserializer des)

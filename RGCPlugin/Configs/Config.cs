@@ -15,6 +15,12 @@ namespace RGCPlugin.Configs
         [YamlMember(Description = "If enabled the radios wont discharge")]
         public bool InfiniteRadio { get; private set; } = true;
 
+        [YamlMember(Description = "If enabled spectators will see when they will spawn")]
+        public bool RespawnTimer { get; private set; } = true;
+
+        [YamlMember(Description = "If enabled spectators will see their next role")]
+        public bool RespawnTimerShowTeam { get; private set; } = true;
+
         [YamlMember(Description = "The color that should be used for MTF", SerializeAs = typeof(string))]
         public TextColor MTFColor { get; private set; } = new TextColor(18, 83, 204);
 
