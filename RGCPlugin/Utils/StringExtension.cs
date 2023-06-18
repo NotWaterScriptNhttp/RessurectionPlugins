@@ -2,7 +2,7 @@
 {
     public static class StringExtensions
     {
-        public static int NumberOfChars(this string str, string target) => str.Length - str.Replace(target, " ").Length;
+        public static int NumberOfChars(this string str, string target) => str.Length - str.Replace(target, "").Length;
         public static string Shift(this string str, int places, out string current)
         {
             current = str.Substring(places);
