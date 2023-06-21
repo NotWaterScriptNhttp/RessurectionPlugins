@@ -15,6 +15,9 @@ namespace RGCPlugin.Configs
         [YamlMember(Description = "If enabled the radios wont discharge")]
         public bool InfiniteRadio { get; private set; } = true;
 
+        [YamlMember(Description = "If enabled you don't need to hold a keycard in your hand")]
+        public bool RemoteKeycard { get; private set; } = true;
+
         [YamlMember(Description = "If enabled spectators will see when they will spawn")]
         public bool RespawnTimer { get; private set; } = true;
 
