@@ -16,11 +16,11 @@ namespace RGCPlugin.Commands
     {
         private delegate bool CommandExecute(ArraySegment<string> args, ICommandSender sender, out string res);
 
-        private static List<ICommand> Commands = new List<ICommand>();
+        private static List<IRGCCommand> Commands = new List<IRGCCommand>();
         private static Dictionary<string, CommandExecute> CommandHandlers = new Dictionary<string, CommandExecute>();
         private static object CommandLock = new object();
 
-        private static void RegisterHandlers(ICommand command)
+        private static void RegisterHandlers(IRGCCommand command)
         {
             lock (CommandLock)
             {
@@ -47,16 +47,16 @@ namespace RGCPlugin.Commands
             }
         }
 
-        public static ICommand AddCommand(Type command)
+        public static IRGCCommand AddCommand(Type command)
         {
-            foreach (ICommand cmd in Commands)
+            foreach (IRGCCommand cmd in Commands)
                 if (cmd.GetType() == command)
                 {
                     Log.Error($"This command ({cmd.Command}) was already added.");
                     return null;
                 }
 
-            ICommand inst = (ICommand)Activator.CreateInstance(command); // Creates an instance of the command
+            IRGCCommand inst = (IRGCCommand)Activator.CreateInstance(command); // Creates an instance of the command
 
             lock (CommandLock)
             {
@@ -66,9 +66,9 @@ namespace RGCPlugin.Commands
 
             return inst;
         }
-        public static void AddCommand(ICommand command)
+        public static void AddCommand(IRGCCommand command)
         {
-            foreach (ICommand cmd in Commands)
+            foreach (IRGCCommand cmd in Commands)
                 if (cmd.GetType() == command.GetType())
                 {
                     Log.Error($"This command ({cmd.Command}) was already added");
@@ -81,15 +81,6 @@ namespace RGCPlugin.Commands
             }
         }
 
-        public static void RemoveCommand(ICommand command)
-        {
-            lock (CommandLock)
-            {
-                if (Commands.Contains(command))
-                    Commands.Remove(command);
-            }
-        }
-
         public static void ReloadHandlers()
         {
             lock (CommandLock)
@@ -97,8 +88,35 @@ namespace RGCPlugin.Commands
                 CommandHandlers.Clear(); // Clears the handlers
 
                 // Registers all of the added commands
-                foreach (ICommand cmd in Commands)
+                foreach (IRGCCommand cmd in Commands)
                     RegisterHandlers(cmd);
+            }
+        }
+
+        public static void RemoveCommand(IRGCCommand command)
+        {
+            lock (CommandLock)
+            {
+                if (Commands.Contains(command))
+                {
+                    if (CommandHandlers.TryGetValue(command.Command, out CommandExecute exec))
+                    {
+                        if (exec.GetMethodInfo().DeclaringType == command.GetType())
+                            CommandHandlers.Remove(command.Command);
+                    }
+
+                    if (command.Aliases != null || command.Aliases.Length > 0)
+                        foreach (string alias in command.Aliases)
+                        {
+                            if (!CommandHandlers.TryGetValue(alias, out CommandExecute exec2))
+                                continue;
+
+                            if (exec2.GetMethodInfo().DeclaringType == command.GetType())
+                                CommandHandlers.Remove(alias);
+                        }
+
+                    Commands.Remove(command);
+                }
             }
         }
 

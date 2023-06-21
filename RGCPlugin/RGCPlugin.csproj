@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Console\RGCFeatures.cs" />
     <Compile Include="Commands\Console\RGCVersion.cs" />
     <Compile Include="Commands\IRGCCommand.cs" />
     <Compile Include="Commands\RGCCommandHandler.cs" />
