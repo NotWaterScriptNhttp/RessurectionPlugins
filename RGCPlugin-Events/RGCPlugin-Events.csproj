@@ -78,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Console\Vote.cs" />
-    <Compile Include="Commands\RA\EventList.cs" />
+    <Compile Include="Commands\EventList.cs" />
     <Compile Include="Commands\RA\StartEvent.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Plugin.cs" />
