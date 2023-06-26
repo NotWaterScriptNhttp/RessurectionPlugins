@@ -79,10 +79,6 @@
   <ItemGroup>
     <Compile Include="Commands\Console\RGCFeatures.cs" />
     <Compile Include="Commands\Console\RGCVersion.cs" />
-    <Compile Include="Commands\IRGCCommand.cs" />
-    <Compile Include="Commands\RGCCommandAttribute.cs" />
-    <Compile Include="Commands\RGCCommandHandler.cs" />
-    <Compile Include="Commands\TestCmd.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Configs\Translation.cs" />
     <Compile Include="Features\InfiniteRadio.cs" />

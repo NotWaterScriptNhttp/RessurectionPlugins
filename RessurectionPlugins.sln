@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NwApiTest", "NwApiTest\NwApiTest.csproj", "{C6146423-8198-451C-84F9-B241E59E70BC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGCPlugin", "RGCPlugin\RGCPlugin.csproj", "{2F9C81CA-BA56-4787-A832-5DA981B48DF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGCPlugin-Events", "RGCPlugin-Events\RGCPlugin-Events.csproj", "{762D25C3-A47F-495B-8656-14C6B7A3D5E1}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6146423-8198-451C-84F9-B241E59E70BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6146423-8198-451C-84F9-B241E59E70BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6146423-8198-451C-84F9-B241E59E70BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6146423-8198-451C-84F9-B241E59E70BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F9C81CA-BA56-4787-A832-5DA981B48DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F9C81CA-BA56-4787-A832-5DA981B48DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9C81CA-BA56-4787-A832-5DA981B48DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
