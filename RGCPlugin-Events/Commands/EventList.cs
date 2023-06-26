@@ -2,14 +2,13 @@
 
 using CommandSystem;
 
-using RGCPlugin.Commands;
-
 namespace RGCPlugin_Events.Commands
 {
-    [RGCCommand]
-    internal class EventList : IRGCCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    internal class EventList : ICommand, IUsageProvider
     {
-        public RGCCommandType CommandType { get; set; } = RGCCommandType.Command | RGCCommandType.RemoteAdminCommand;
         public string Command { get; set; } = "event_list";
         public string[] Aliases { get; set; } = new string[] { "eventlist", "list_event", "list_ev" };
         public string Description { get; set; } = "Gets all events that can be played.";

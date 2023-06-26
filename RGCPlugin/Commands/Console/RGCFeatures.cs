@@ -7,10 +7,10 @@ using RGCPlugin.Configs;
 
 namespace RGCPlugin.Commands.Console
 {
-    [RGCCommand]
-    internal class RGCFeatures : IRGCCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
+    internal class RGCFeatures : ICommand, IUsageProvider
     {
-        public RGCCommandType CommandType { get; set; } = RGCCommandType.Command;
         public string Command { get; } = "rgcfeatures";
         public string[] Aliases { get; } = new string[] { "rf", "rgcf", "rfeatures" };
         public string Description { get; } = "";

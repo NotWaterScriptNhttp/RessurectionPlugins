@@ -2,14 +2,11 @@
 
 using CommandSystem;
 
-using RGCPlugin.Commands;
-
 namespace RGCPlugin_Events.Commands.Console
 {
-    [RGCCommand]
-    internal class Vote : IRGCCommand
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
+    internal class Vote : ICommand, IUsageProvider
     {
-        public RGCCommandType CommandType { get; set; } = RGCCommandType.Command;
         public string Command { get; set; } = "vote";
         public string[] Aliases { get; set; } = new string[1] { "vt" };
         public string Description { get; set; } = "Votes for a given event";

@@ -3,14 +3,13 @@
 using CommandSystem;
 
 using RGCPlugin.Utils;
-using RGCPlugin.Commands;
 
 namespace RGCPlugin_Events.Commands.RA
 {
-    [RGCCommand]
-    internal class StartEvent : IRGCCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    internal class StartEvent : ICommand, IUsageProvider
     {
-        public RGCCommandType CommandType { get; set; } = RGCCommandType.RemoteAdminCommand;
         public string Command { get; set; } = "start_event";
         public string[] Aliases { get; set; } = new string[] { "start_ev", "s_event" }; 
         public string Description { get; set; } = "Starts the specified event";

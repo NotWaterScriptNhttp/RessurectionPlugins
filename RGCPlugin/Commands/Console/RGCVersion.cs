@@ -5,10 +5,10 @@ using CommandSystem;
 
 namespace RGCPlugin.Commands.Console
 {
-    [RGCCommand]
-    internal class RGCVersion : IRGCCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
+    internal class RGCVersion : ICommand, IUsageProvider
     {
-        public RGCCommandType CommandType { get; set; } = RGCCommandType.Command;
         public string Command { get; } = "rgcversion";
         public string[] Aliases { get; } = new string[] { "rver", "rgcver" };
         public string Description { get; } = "Gets the running version of this plugin";
