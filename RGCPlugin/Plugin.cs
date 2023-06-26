@@ -3,11 +3,12 @@
 using Serialization;
 
 using PluginAPI.Core;
+using PluginAPI.Enums;
 using PluginAPI.Events;
 using PluginAPI.Core.Attributes;
 
 using RGCPlugin.Configs;
-
+using RGCPlugin.Commands;
 
 namespace RGCPlugin
 {
@@ -65,7 +66,8 @@ namespace RGCPlugin
 
         #region Plugin Callbacks
 
-        [PluginEntryPoint("RGC Plugin", "1.0.0", "A plugin made for the RGC", "Noobslayer")]
+        [PluginPriority(LoadPriority.Highest)]
+        [PluginEntryPoint("RGC Plugin", "1.0.0", "A plugin with features that a server wants", "Noobslayer")]
         // Called when the plugin is run
         private void OnPluginLoad()
         {
@@ -81,6 +83,8 @@ namespace RGCPlugin
             // Find the target translation
             LoadTranslation(myPath);
 
+            RGCCommandHandler.RegisterCommands(); // Registers all of the commands from this assembly
+
             Log.Info("Successfully loaded");
         }
 
@@ -92,6 +96,9 @@ namespace RGCPlugin
         // Called when the plugin is unloaded
         private void OnPluginUnload() 
         {
+            // Unregisters all of the commands that were registered for this assembly
+            RGCCommandHandler.UnregisterCommands();
+
             EventManager.UnregisterAllEvents(this); // Unregisters all events from this plugin
         }
 

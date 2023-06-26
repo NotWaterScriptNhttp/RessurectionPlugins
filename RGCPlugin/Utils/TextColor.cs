@@ -15,7 +15,7 @@ namespace RGCPlugin.Utils
 
         public TextColor() { }
         public TextColor(string colorString) => LoadColorFromString(colorString);
-        public TextColor(byte R = 255, byte G = 255, byte B = 255)
+        public TextColor(byte R = 0, byte G = 0, byte B = 0)
         {
             this.R = R;
             this.G = G;

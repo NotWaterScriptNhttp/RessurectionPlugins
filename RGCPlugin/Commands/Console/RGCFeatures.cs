@@ -7,15 +7,14 @@ using RGCPlugin.Configs;
 
 namespace RGCPlugin.Commands.Console
 {
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
+    [RGCCommand]
     internal class RGCFeatures : IRGCCommand
     {
+        public RGCCommandType CommandType { get; set; } = RGCCommandType.Command;
         public string Command { get; } = "rgcfeatures";
         public string[] Aliases { get; } = new string[] { "rf", "rgcf", "rfeatures" };
         public string Description { get; } = "";
-        public string[] Usage { get; } = null;
-
-        public RGCFeatures() => RGCCommandHandler.AddCommand(this);
+        public string[] Usage { get; } = new string[0];
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
