@@ -174,7 +174,7 @@ namespace RGCPlugin.Commands
             {
                 bool success = cmdData.exec(args.Segment(0), sender, out data);
 
-                if (!EventManager.ExecuteEvent(ServerEventType.PlayerGameConsoleCommandExecuted, player.ReferenceHub, command, args, success, data))
+                if (!EventManager.ExecuteEvent(new PlayerGameConsoleCommandExecutedEvent(player.ReferenceHub, command, args, success, data)))
                     return false;
             }
             catch (Exception ex)
@@ -182,7 +182,7 @@ namespace RGCPlugin.Commands
                 data = "Command execution failed! Error: " + (ex != null ? ex.ToString() : null);
                 Log.Error(data);
 
-                if (!EventManager.ExecuteEvent(ServerEventType.PlayerGameConsoleCommandExecuted, player.ReferenceHub, command, args, false, data))
+                if (!EventManager.ExecuteEvent(new PlayerGameConsoleCommandExecutedEvent(player.ReferenceHub, command, args, false, data)))
                     return false;
             }
 
@@ -209,14 +209,15 @@ namespace RGCPlugin.Commands
             {
                 success = cmdData.exec(args.Segment(0), sender, out data);
 
-                if (!EventManager.ExecuteEvent(ServerEventType.ConsoleCommandExecuted, sender, command, args, success, data))
+                
+                if (!EventManager.ExecuteEvent(new ConsoleCommandExecutedEvent(sender, command, args, success, data)))
                     return false;
             } catch (Exception ex)
             {
                 data = "Command execution failed! Error: " + (ex != null ? ex.ToString() : null);
                 Log.Error(data);
 
-                if (!EventManager.ExecuteEvent(ServerEventType.ConsoleCommandExecuted, sender, command, args, false, data))
+                if (!EventManager.ExecuteEvent(new ConsoleCommandExecutedEvent(sender, command, args, false, data)))
                     return false;
             }
 
@@ -240,8 +241,8 @@ namespace RGCPlugin.Commands
             try
             {
                 success = cmdData.exec(args.Segment(0), sender, out data);
-
-                if (!EventManager.ExecuteEvent(ServerEventType.RemoteAdminCommandExecuted, sender, command, args, success, data))
+                
+                if (!EventManager.ExecuteEvent(new RemoteAdminCommandExecutedEvent(sender, command, args, success, data)))
                     return false;
             } 
             catch (Exception ex)
@@ -249,7 +250,7 @@ namespace RGCPlugin.Commands
                 data = "Command execution failed! Error: " + Misc.RemoveStacktraceZeroes(ex.ToString());
                 overdisplay = command.ToUpperInvariant() + "#" + data;
 
-                if (!EventManager.ExecuteEvent(ServerEventType.RemoteAdminCommandExecuted, sender, command, args, false, data))
+                if (!EventManager.ExecuteEvent(new RemoteAdminCommandExecutedEvent(sender, command, args, false, data)))
                     return false;
             }
 

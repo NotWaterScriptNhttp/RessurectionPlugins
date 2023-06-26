@@ -131,7 +131,8 @@ namespace RGCPlugin.Features
                 if (((KeycardItem)item).Permissions.HasFlagFast(permission))
                 {
                     // This code is pretty much what the server normally does
-                    if (EventManager.ExecuteEvent(ServerEventType.PlayerUnlockGenerator, player, generator))
+                    
+                    if (EventManager.ExecuteEvent(new PlayerUnlockGeneratorEvent(player.ReferenceHub, generator)))
                     {
                         generator.Network_flags |= (byte)Scp079Generator.GeneratorFlags.Unlocked;
 
