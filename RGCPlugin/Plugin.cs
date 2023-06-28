@@ -83,8 +83,6 @@ namespace RGCPlugin
             // Find the target translation
             LoadTranslation(myPath);
 
-            RGCCommandHandler.RegisterCommands(); // Registers all of the commands from this assembly
-
             Log.Info("Successfully loaded");
         }
 
@@ -96,9 +94,6 @@ namespace RGCPlugin
         // Called when the plugin is unloaded
         private void OnPluginUnload() 
         {
-            // Unregisters all of the commands that were registered for this assembly
-            RGCCommandHandler.UnregisterCommands();
-
             EventManager.UnregisterAllEvents(this); // Unregisters all events from this plugin
         }
 
