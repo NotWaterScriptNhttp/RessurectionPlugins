@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 
 using Serialization;
 
@@ -8,12 +10,15 @@ using PluginAPI.Events;
 using PluginAPI.Core.Attributes;
 
 using RGCPlugin.Configs;
-using RGCPlugin.Commands;
 
 namespace RGCPlugin
 {
     public class Plugin
     {
+        private static Translation defaultTranslation = new Translation();
+        private static PropertyInfo[] ConfigProperties = null;
+        private static PropertyInfo[] TranslationProperties = null;
+
         [PluginConfig]
         public Config Config; // Some user settings for the plugin
 
@@ -88,13 +93,52 @@ namespace RGCPlugin
 
         [PluginReload]
         // Called when a reload is run
-        private void OnPluginReload() { }
+        private void OnPluginReload()
+        {
+            ConfigProperties = null;
+            TranslationProperties = null;
+        }
 
         [PluginUnload]
         // Called when the plugin is unloaded
         private void OnPluginUnload() 
         {
             EventManager.UnregisterAllEvents(this); // Unregisters all events from this plugin
+        }
+
+        #endregion
+
+        #region Config Methods
+
+        public static T GetConfigValue<T>(string key, T def)
+        {
+            if (Instance == null)
+                return def;
+
+            if (ConfigProperties == null)
+                ConfigProperties = typeof(Config).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (PropertyInfo prop in ConfigProperties)
+            {
+                if (prop.Name.ToLower() == key.ToLower())
+                    return (T)prop.GetValue(Instance.Config);
+            }
+
+            return def;
+        }
+        public static string GetTranslation(string key, string def = "")
+        {
+            if (TranslationProperties == null)
+                TranslationProperties = typeof(Translation).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+            Translation curr = Instance == null ? defaultTranslation : Instance.Translation;
+
+            foreach (PropertyInfo prop in TranslationProperties)
+                if (prop.Name.ToLower() == key.ToLower())
+                    return (string)prop.GetValue(curr);
+
+            // If no key was found return the default one
+            return def;
         }
 
         #endregion

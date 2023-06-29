@@ -11,10 +11,7 @@ namespace RGCPlugin.Features
         [PluginEvent(ServerEventType.PlayerUsingRadio)]
         private void OnPlayerUseRadio(Player player, RadioItem radio, float drain)
         {
-            if (Plugin.Instance == null)
-                return;
-
-            if (Plugin.Instance.Config.InfiniteRadio)
+            if (Plugin.GetConfigValue("InfiniteRadio", false))
                 radio.BatteryPercent = 100;
         }
     }

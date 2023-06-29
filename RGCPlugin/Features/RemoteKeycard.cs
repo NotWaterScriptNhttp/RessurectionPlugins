@@ -17,18 +17,14 @@ using PluginAPI.Enums;
 using PluginAPI.Events;
 using PluginAPI.Core.Attributes;
 
-using RGCPlugin.Configs;
-
 namespace RGCPlugin.Features
 {
     internal class RemoteKeycard
     {
-        private Config Config = Plugin.Instance != null ? Plugin.Instance.Config : null;
-
         [PluginEvent(ServerEventType.PlayerInteractLocker)]
         private bool OnPlayerLockerInteract(Player player, Locker locker, LockerChamber chamber, bool canOpen)
         {
-            if (Config == null || !Config.RemoteKeycard)
+            if (!Plugin.GetConfigValue("RemoteKeycard", false))
                 return true;
 
             if (canOpen)
@@ -66,7 +62,7 @@ namespace RGCPlugin.Features
         [PluginEvent(ServerEventType.PlayerInteractDoor)]
         private bool OnPlayerDoorInteract(Player player, DoorVariant door, bool canOpen)
         {
-            if (Config == null || !Config.RemoteKeycard)
+            if (!Plugin.GetConfigValue("RemoteKeycard", false))
                 return true;
 
             // Check if the default logic has executed
@@ -109,7 +105,7 @@ namespace RGCPlugin.Features
                 return (generator.Network_flags & (byte)flag) == (byte)flag;
             }
 
-            if (Config == null || !Config.RemoteKeycard)
+            if (!Plugin.GetConfigValue("RemoteKeycard", false))
                 return true;
 
             // Check if the interaction is with the door 

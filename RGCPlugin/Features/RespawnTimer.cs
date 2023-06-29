@@ -9,33 +9,21 @@ using PluginAPI.Core;
 using PluginAPI.Enums;
 using PluginAPI.Core.Attributes;
 
-using RGCPlugin.Configs;
+using RGCPlugin.Utils;
 
 namespace RGCPlugin.Features
 {
     internal class RespawnTimer
     {
-        private List<Player> ConnectedPlayers = new List<Player>();
-
-        private Config UsedConfig = Plugin.Instance != null ? Plugin.Instance.Config : null;
-        private Translation UsedTranslation = Plugin.Instance != null ? Plugin.Instance.Translation : null;
-
         private CoroutineHandle MainCoroutine;
+        private List<Player> ConnectedPlayers = new List<Player>();
 
         private IEnumerator<float> DoRespawnTimerForPlayers()
         {
             while (true)
             {
-                if (UsedConfig == null)
-                {
-                    Log.Error("Config is null");
-                    yield break;
-                }
-                if (UsedTranslation == null)
-                {
-                    Log.Error("Translation is null");
-                    yield break;
-                }
+                if (Plugin.GetConfigValue("RespawnTimer", false))
+                    yield return Timing.WaitForSeconds(1);
 
                 RespawnManager rm = RespawnManager.Singleton;
                 TimeSpan ts = new TimeSpan(0, 0, rm.TimeTillRespawn);
@@ -43,16 +31,16 @@ namespace RGCPlugin.Features
                 string text = "";
                 try
                 {
-                    if (!UsedConfig.RespawnTimerShowTeam || rm.NextKnownTeam == SpawnableTeamType.None)
-                        text = string.Format(UsedTranslation.RespawnTimer, ts.ToString(@"mm\:ss"));
+                    if (!Plugin.GetConfigValue("RespawnTimerShowTeam", true) || rm.NextKnownTeam == SpawnableTeamType.None)
+                        text = string.Format(Plugin.GetTranslation("RespawnTimer", "It does not work"), ts.ToString(@"mm\:ss"));
                     else
                     {
                         string teamText = "";
                         if (rm.NextKnownTeam == SpawnableTeamType.NineTailedFox)
-                            teamText = UsedConfig.MTFColor.GetColoredText(UsedTranslation.RespawnTimerMTF);
-                        else teamText = UsedConfig.CIColor.GetColoredText(UsedTranslation.RespawnTimerCI);
+                            teamText = Plugin.GetConfigValue<TextColor>("MTFColor", new TextColor(10, 10, 230)).GetColoredText(Plugin.GetTranslation("RespawnTimerMTF", "MTF"));
+                        else teamText = Plugin.GetConfigValue<TextColor>("CIColor", new TextColor(10, 230, 10)).GetColoredText(Plugin.GetTranslation("RespawnTimerCI", "CI"));
 
-                        text = string.Format(UsedTranslation.RespawnTimerAs, teamText, ts.ToString(@"mm\:ss"));
+                        text = string.Format(Plugin.GetTranslation("RespawnTimerAs"), teamText, ts.ToString(@"mm\:ss"));
                     }
                 } catch (Exception e)
                 {
@@ -83,10 +71,8 @@ namespace RGCPlugin.Features
         }
 
         [PluginEvent(ServerEventType.RoundStart)]
-        private void OnRoundStart()
-        {
-            MainCoroutine = Timing.RunCoroutine(DoRespawnTimerForPlayers());
-        }
+        private void OnRoundStart() => MainCoroutine = Timing.RunCoroutine(DoRespawnTimerForPlayers());
+
         [PluginEvent(ServerEventType.RoundEnd)]
         private void OnRoundEnd(RoundSummary.LeadingTeam team) => Timing.KillCoroutines(MainCoroutine);
     }

@@ -82,6 +82,7 @@
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Configs\Translation.cs" />
     <Compile Include="Features\InfiniteRadio.cs" />
+    <Compile Include="Features\LastAnnouncer.cs" />
     <Compile Include="Features\RemoteKeycard.cs" />
     <Compile Include="Features\RespawnTimer.cs" />
     <Compile Include="Plugin.cs" />
