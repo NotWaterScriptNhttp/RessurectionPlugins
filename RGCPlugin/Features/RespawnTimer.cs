@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Respawning;
-
 using MEC;
+using Respawning;
 
 using PluginAPI.Core;
 using PluginAPI.Enums;
@@ -15,15 +14,18 @@ namespace RGCPlugin.Features
 {
     internal class RespawnTimer
     {
-        private CoroutineHandle MainCoroutine;
+        private Nullable<CoroutineHandle> MainCoroutine = null;
         private List<Player> ConnectedPlayers = new List<Player>();
 
         private IEnumerator<float> DoRespawnTimerForPlayers()
         {
             while (true)
             {
-                if (Plugin.GetConfigValue("RespawnTimer", false))
+                if (!Plugin.GetConfigValue("RespawnTimer", false))
+                {
                     yield return Timing.WaitForSeconds(1);
+                    continue;
+                }
 
                 RespawnManager rm = RespawnManager.Singleton;
                 TimeSpan ts = new TimeSpan(0, 0, rm.TimeTillRespawn);
@@ -32,7 +34,7 @@ namespace RGCPlugin.Features
                 try
                 {
                     if (!Plugin.GetConfigValue("RespawnTimerShowTeam", true) || rm.NextKnownTeam == SpawnableTeamType.None)
-                        text = string.Format(Plugin.GetTranslation("RespawnTimer", "It does not work"), ts.ToString(@"mm\:ss"));
+                        text = string.Format(Plugin.GetTranslation("RespawnTimer", "You will respawn in {mm:ss}"), ts.ToString(@"mm\:ss"));
                     else
                     {
                         string teamText = "";
@@ -48,8 +50,8 @@ namespace RGCPlugin.Features
                     yield break;
                 }
 
-                List<Player> currentPlayer = ConnectedPlayers;
-                foreach (Player plr in currentPlayer)
+                List<Player> currentPlayers = ConnectedPlayers;
+                foreach (Player plr in currentPlayers)
                 {
                     if (plr.IsAlive)
                         continue;
@@ -70,10 +72,31 @@ namespace RGCPlugin.Features
                 ConnectedPlayers.Remove(player);
         }
 
+        [PluginEvent(ServerEventType.WaitingForPlayers)]
+        private void OnWaiting()
+        {
+            if (MainCoroutine.HasValue)
+                Timing.KillCoroutines(MainCoroutine.Value);
+
+            MainCoroutine = null;
+        }
+
         [PluginEvent(ServerEventType.RoundStart)]
-        private void OnRoundStart() => MainCoroutine = Timing.RunCoroutine(DoRespawnTimerForPlayers());
+        private void OnRoundStart()
+        {
+            if (MainCoroutine.HasValue)
+                Timing.KillCoroutines(MainCoroutine.Value);
+
+            MainCoroutine = Timing.RunCoroutine(DoRespawnTimerForPlayers());
+        }
 
         [PluginEvent(ServerEventType.RoundEnd)]
-        private void OnRoundEnd(RoundSummary.LeadingTeam team) => Timing.KillCoroutines(MainCoroutine);
+        private void OnRoundEnd(RoundSummary.LeadingTeam team)
+        {
+            if (MainCoroutine.HasValue)
+                Timing.KillCoroutines(MainCoroutine.Value);
+
+            MainCoroutine = null;
+        }
     }
 }

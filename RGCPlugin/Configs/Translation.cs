@@ -18,5 +18,10 @@ namespace RGCPlugin.Configs
 
         [YamlMember(Description = "The translation for CI")]
         public string RespawnTimerCI { get; private set; } = "Chaos Insurgency";
+
+        [YamlMember(Description = "{0} is the zone/room where the last player is")]
+        public string AnnouncerLastIn { get; private set; } = "Last player in {0}";
+        public string AnnouncerLastOn { get; private set; } = "Last player on {0}";
+        public string AnnouncerYouAreLast { get; private set; } = "You are the last player";
     }
 }
