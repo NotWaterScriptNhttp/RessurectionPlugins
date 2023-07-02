@@ -15,6 +15,9 @@ namespace RGCPlugin.Configs
         [YamlMember(Description = "Enable to fix the role spawns, should be disabled when nw fixes it or its causing problems")]
         public bool FixSpawnpoints { get; private set; } = true;
 
+        [YamlMember(Description = "If enabled tutorial's cant enrage/stare the scps")]
+        public bool TutorialNoLook { get; private set; } = true;
+
         [YamlMember(Description = "If enabled the radios wont discharge")]
         public bool InfiniteRadio { get; private set; } = true;
 

@@ -125,6 +125,24 @@ namespace RGCPlugin
 
             return def;
         }
+        public static void SetConfigValue(string key, object val)
+        {
+            if (Instance == null)
+                return;
+
+            if (ConfigProperties == null)
+                ConfigProperties = typeof(Config).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (PropertyInfo prop in ConfigProperties)
+            {
+                if (prop.Name.ToLower() == key.ToLower())
+                {
+                    prop.SetValue(Instance.Config, val);
+                    break;
+                }
+            }
+        }
+
         public static string GetTranslation(string key, string def = "")
         {
             if (TranslationProperties == null)
