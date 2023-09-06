@@ -16,7 +16,7 @@ namespace RGCPlugin.Configs
         public bool FixSpawnpoints { get; private set; } = true;
 
         [YamlMember(Description = "If enabled tutorial's cant enrage/stare the scps")]
-        public bool TutorialNoLook { get; private set; } = true;
+        public bool TutorialNoLook { get; private set; } = false;
 
         [YamlMember(Description = "If enabled the radios wont discharge")]
         public bool InfiniteRadio { get; private set; } = true;

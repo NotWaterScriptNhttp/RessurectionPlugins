@@ -37,7 +37,7 @@ namespace RGCPlugin.Features
             (bool succ, Vector3 pos, float rot) = GetSpawnpoint(id);
             if (!succ)
             {
-                Log.Error($"Failed to get random spawnpoint for: {id}");
+                Log.Error($"Failed to get random spawnpoint for RID: {id}, Plr: {plr.Nickname}");
                 return;
             }
 

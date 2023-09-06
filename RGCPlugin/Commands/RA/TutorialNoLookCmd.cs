@@ -7,9 +7,9 @@ namespace RGCPlugin.Commands.RA
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class TutorialNoLookCmd : ICommand, IUsageProvider
     {
-        public string Command { get; } = "";
+        public string Command { get; } = "tutnolook";
         public string[] Aliases { get; } = new string[0];
-        public string Description { get; } = "";
+        public string Description { get; } = "When looking on 096 or 173 as a tut they wont get stopped or enraged";
         public string[] Usage { get; } = new string[0];
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
