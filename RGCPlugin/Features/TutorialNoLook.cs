@@ -9,7 +9,7 @@ namespace RGCPlugin.Features
         private bool IsAllowed(Player plr)
         {
             if (!Plugin.GetConfigValue("TutorialNoLook", true))
-                return false;
+                return true;
 
             switch (plr.Role)
             {

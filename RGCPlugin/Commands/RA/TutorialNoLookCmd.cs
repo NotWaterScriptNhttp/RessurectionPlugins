@@ -20,6 +20,12 @@ namespace RGCPlugin.Commands.RA
                 return true;
             }
 
+            if (Plugin.GetConfigValue("LockNoLookToConfig", true))
+            {
+                response = "Denied due to config lock";
+                return false;
+            }
+
             string[] arr = new string[1] { arguments.At(0) };
             Misc.CommandOperationMode mode;
             if (!Misc.TryCommandModeFromArgs(ref arr, out mode))
